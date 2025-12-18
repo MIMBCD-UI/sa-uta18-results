@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>NASA-TLX + DOTS</title>
+
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 40px;
+        background: #f7f7f7;
+        color: #333;
+    }
+    h1 {
+        text-align: center;
+        margin-bottom: 30px;
+    }
+    .container {
+        background: white;
+        padding: 30px;
+        border-radius: 8px;
+        max-width: 800px;
+        margin: auto;
+        box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    .item {
+        margin-bottom: 35px;
+    }
+    .item h2 {
+        margin-bottom: 10px;
+        font-size: 1.2em;
+    }
+    .scale {
+        width: 100%;
+    }
+    .labels, .likert-labels {
+        display: flex;
+        justify-content: space-between;
+        font-size: 0.9em;
+        margin-top: 5px;
+    }
+    textarea {
+        width: 100%;
+        min-height: 100px;
+        padding: 10px;
+        font-family: Arial, sans-serif;
+        font-size: 1em;
+        border-radius: 4px;
+        border: 1px solid #ccc;
+        resize: vertical;
+    }
+    button {
+        display: block;
+        margin: 30px auto 0 auto;
+        padding: 12px 24px;
+        font-size: 1em;
+        background: #2c5f9e;
+        color: white;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+    }
+    button:hover {
+        background: #234b7a;
+    }
+</style>
+</head>
+
+<body>
+
+<h1>Avaliação de Carga de Trabalho – NASA-TLX + DOTS</h1>
+
+<div class="container">
+
+<p>Por favor, avalie cada dimensão abaixo com base na sua experiência durante as tarefas.</p>
+
+<!-- NASA-TLX -->
+<div class="item">
+    <h2>Exigência Mental</h2>
+    <input type="range" min="0" max="100" class="scale" id="mental" />
+    <div class="labels"><span>Baixa</span><span>Alta</span></div>
+</div>
+
+<div class="item">
+    <h2>Exigência Física</h2>
+    <input type="range" min="0" max="100" class="scale" id="fisica" />
+    <div class="labels"><span>Baixa</span><span>Alta</span></div>
+</div>
+
+<div class="item">
+    <h2>Exigência Temporal</h2>
+    <input type="range" min="0" max="100" class="scale" id="temporal" />
+    <div class="labels"><span>Baixa</span><span>Alta</span></div>
+</div>
+
+<div class="item">
+    <h2>Performance</h2>
+    <input type="range" min="0" max="100" class="scale" id="performance" />
+    <div class="labels"><span>Boa</span><span>Pobre</span></div>
+</div>
+
+<div class="item">
+    <h2>Esforço</h2>
+    <input type="range" min="0" max="100" class="scale" id="esforco" />
+    <div class="labels"><span>Baixo</span><span>Alto</span></div>
+</div>
+
+<div class="item">
+    <h2>Nível de Frustração</h2>
+    <input type="range" min="0" max="100" class="scale" id="frustracao" />
+    <div class="labels"><span>Baixo</span><span>Alto</span></div>
+</div>
+
+<!-- DOTS -->
+<h2>Confiança no Sistema (DOTS)</h2>
+
+<div class="item">
+    <h2>Compreensão</h2>
+    <p>“Eu entendo o que o sistema está pensando.”</p>
+    <input type="range" min="0" max="100" class="scale" id="understanding" step="5" />
+    <div class="likert-labels"><span>0% - Discordo totalmente</span><span>100% - Concordo totalmente</span></div>
+</div>
+
+<div class="item">
+    <h2>Capacidade</h2>
+    <p>“O sistema parece capaz.”</p>
+    <input type="range" min="0" max="100" class="scale" id="capability" step="5" />
+    <div class="likert-labels"><span>0% - Discordo totalmente</span><span>100% - Concordo totalmente</span></div>
+</div>
+
+<div class="item">
+    <h2>Benevolência</h2>
+    <p>“O sistema parece benevolente.”</p>
+    <input type="range" min="0" max="100" class="scale" id="benevolence" step="5" />
+    <div class="likert-labels"><span>0% - Discordo totalmente</span><span>100% - Concordo totalmente</span></div>
+</div>
+
+<!-- Semi-Structured Interview -->
+<h2>Perguntas Abertas</h2>
+
+<div class="item">
+    <h2>Experiência prévia com IA</h2>
+    <p>Qual tem sido a sua experiência prévia com ferramentas de inteligência artificial na sua prática clínica?</p>
+    <textarea id="q1"></textarea>
+</div>
+
+<div class="item">
+    <h2>Dificuldade de interpretação</h2>
+    <p>Quais são, na sua perspetiva, os principais fatores que tornam uma imagem difícil de interpretar? Em que situações considera necessário solicitar exames adicionais?</p>
+    <textarea id="q2"></textarea>
+</div>
+
+<div class="item">
+    <h2>IA como segunda opinião</h2>
+    <p>Em situações em que não se sente seguro ou considera que a informação disponível é insuficiente para uma interpretação fiável, recorreria a uma ferramenta de inteligência artificial como segunda opinião?</p>
+    <textarea id="q3"></textarea>
+</div>
+
+<div class="item">
+    <h2>Integração no workflow</h2>
+    <p>Em que etapas do seu fluxo de trabalho atual considera que um classificador de BI-RADS poderia ser mais útil, e qual seria, para si, a forma mais adequada de interação com esse modelo?</p>
+    <textarea id="q4"></textarea>
+</div>
+
+<button onclick="baixarCSV()">Enviar</button>
+
+</div>
+
+<script>
+function baixarCSV() {
+    const valores = {
+        "Exigência Mental": mental.value,
+        "Exigência Física": fisica.value,
+        "Exigência Temporal": temporal.value,
+        "Performance": performance.value,
+        "Esforço": esforco.value,
+        "Frustração": frustracao.value,
+        "DOTS_Compreensão": understanding.value,
+        "DOTS_Capacidade": capability.value,
+        "DOTS_Benevolência": benevolence.value,
+        "Experiência prévia com IA": q1.value.replace(/[\n\r]+/g, " "),
+        "Dificuldade de interpretação": q2.value.replace(/[\n\r]+/g, " "),
+        "IA como segunda opinião": q3.value.replace(/[\n\r]+/g, " "),
+        "Integração no workflow": q4.value.replace(/[\n\r]+/g, " ")
+    };
+
+    const cabecalho = Object.keys(valores).join(",") + "\n";
+    const linha = Object.values(valores).map(v => `"${v}"`).join(",") + "\n";
+    const csv = cabecalho + linha;
+
+    const blob = new Blob([csv], { type: "text/csv" });
+    const url = URL.createObjectURL(blob);
+
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "questionario_nasa_tlx_dots.csv";
+    a.click();
+
+    URL.revokeObjectURL(url);
+}
+</script>
+
+</body>
+</html>
+
